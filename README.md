@@ -1,3 +1,3 @@
-# SwiftUIFlow
+# SwiftUI Flow
 
-A description of this package.
+SwiftUI views that arrange their children in a flow layout.
