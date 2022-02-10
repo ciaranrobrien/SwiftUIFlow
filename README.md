@@ -2,6 +2,8 @@
 
 SwiftUI views that arrange their children in a flow layout.
 
+![Demo](./Resources/Demo.gif "Demo")
+
 ## HFlow
 A view that arranges its children in a horizontal flow.
 
