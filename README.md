@@ -10,14 +10,15 @@ A view that arranges its children in a horizontal flow.
 ### Usage
 ```swift
 ScrollView(.horizontal) {
-    HFlow {
+    HFlow(alignment: .top) {
         //Flow content
     }
 }
 ```
 
 ### Parameters
-* `horizontalSpacing`: The distance between adjacent columns of subviews, or `nil` if you want the flow to choose a default distance for each pair of columns.
+* `alignment`: The guide for aligning the subviews in this flow. This guide has the same vertical screen coordinate for every child view.
+* `horizontalSpacing`: The distance between horizontally adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
 * `verticalSpacing`: The distance between vertically adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
 * `content`: A view builder that creates the content of this flow.
 
@@ -27,15 +28,35 @@ A view that arranges its children in a vertical flow.
 ### Usage
 ```swift
 ScrollView(.vertical) {
-    VFlow {
+    VFlow(alignment: .leading) {
         //Flow content
     }
 }
 ```
 
 ### Parameters
+* `alignment`: The guide for aligning the subviews in this flow. This guide has the same horizontal screen coordinate for every child view.
 * `horizontalSpacing`: The distance between horizontally adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
-* `verticalSpacing`: The distance between adjacent rows of subviews, or `nil` if you want the flow to choose a default distance for each pair of rows.
+* `verticalSpacing`: The distance between vertically adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
+* `content`: A view builder that creates the content of this flow.
+
+## Flow
+A view that arranges its children in a flow.
+
+### Usage
+```swift
+ScrollView(.vertical) {
+    Flow(.vertical, alignment: .topLeading) {
+        //Flow content
+    }
+}
+```
+
+### Parameters
+* `axis`: The layout axis of this flow.
+* `alignment`: The guide for aligning the subviews in this flow on both the x- and y-axes.
+* `horizontalSpacing`: The distance between horizontally adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
+* `verticalSpacing`: The distance between vertically adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
 * `content`: A view builder that creates the content of this flow.
 
 ## Requirements
