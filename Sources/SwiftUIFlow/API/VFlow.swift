@@ -10,13 +10,15 @@ public struct VFlow<Content>: View
 where Content : View
 {
     public var body: some View {
-        Flow(axis: .vertical,
-             content: content,
+        Flow(.vertical,
+             alignment: Alignment(horizontal: horizontalAlignment, vertical: .top),
              horizontalSpacing: horizontalSpacing,
-             verticalSpacing: verticalSpacing)
+             verticalSpacing: verticalSpacing,
+             content: content)
     }
     
     private var content: () -> Content
+    private var horizontalAlignment: HorizontalAlignment
     private var horizontalSpacing: CGFloat?
     private var verticalSpacing: CGFloat?
 }
@@ -25,35 +27,47 @@ where Content : View
 public extension VFlow {
     /// A view that arranges its children in a vertical flow.
     ///
+    /// This view returns a flexible preferred width to its parent layout.
+    ///
     /// - Parameters:
+    ///   - alignment: The guide for aligning the subviews in this flow. This
+    ///     guide has the same horizontal screen coordinate for every child view.
     ///   - spacing: The distance between adjacent subviews, or `nil` if you
     ///     want the flow to choose a default distance for each pair of
     ///     subviews.
     ///   - content: A view builder that creates the content of this flow.
-    init(spacing: CGFloat? = nil,
+    init(alignment: HorizontalAlignment = .center,
+         spacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.init(horizontalSpacing: spacing,
-                  verticalSpacing: spacing,
-                  content: content)
+        self.content = content
+        self.horizontalAlignment = alignment
+        self.horizontalSpacing = spacing
+        self.verticalSpacing = spacing
     }
     
     /// A view that arranges its children in a vertical flow.
     ///
+    /// This view returns a flexible preferred width to its parent layout.
+    ///
     /// - Parameters:
+    ///   - alignment: The guide for aligning the subviews in this flow. This
+    ///     guide has the same horizontal screen coordinate for every child view.
     ///   - horizontalSpacing: The distance between horizontally adjacent
     ///     subviews, or `nil` if you want the flow to choose a default distance
     ///     for each pair of subviews.
-    ///   - verticalSpacing: The distance between adjacent rows of
+    ///   - verticalSpacing: The distance between vertically adjacent
     ///     subviews, or `nil` if you want the flow to choose a default distance
-    ///     for each pair of rows.
+    ///     for each pair of subviews.
     ///   - content: A view builder that creates the content of this flow.
-    init(horizontalSpacing: CGFloat? = nil,
+    init(alignment: HorizontalAlignment = .center,
+         horizontalSpacing: CGFloat? = nil,
          verticalSpacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
+        self.content = content
+        self.horizontalAlignment = alignment
         self.horizontalSpacing = horizontalSpacing
         self.verticalSpacing = verticalSpacing
-        self.content = content
     }
 }
