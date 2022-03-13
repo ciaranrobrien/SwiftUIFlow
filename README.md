@@ -18,8 +18,7 @@ ScrollView(.horizontal) {
 
 ### Parameters
 * `alignment`: The guide for aligning the subviews in this flow. This guide has the same vertical screen coordinate for every child view.
-* `horizontalSpacing`: The distance between horizontally adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
-* `verticalSpacing`: The distance between vertically adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
+* `spacing`: The distance between adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
 * `content`: A view builder that creates the content of this flow.
 
 ## VFlow
@@ -36,8 +35,7 @@ ScrollView(.vertical) {
 
 ### Parameters
 * `alignment`: The guide for aligning the subviews in this flow. This guide has the same horizontal screen coordinate for every child view.
-* `horizontalSpacing`: The distance between horizontally adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
-* `verticalSpacing`: The distance between vertically adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
+* `spacing`: The distance between adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
 * `content`: A view builder that creates the content of this flow.
 
 ## Flow
@@ -55,9 +53,11 @@ ScrollView(.vertical) {
 ### Parameters
 * `axis`: The layout axis of this flow.
 * `alignment`: The guide for aligning the subviews in this flow on both the x- and y-axes.
-* `horizontalSpacing`: The distance between horizontally adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
-* `verticalSpacing`: The distance between vertically adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
+* `spacing`: The distance between adjacent subviews, or `nil` if you want the flow to choose a default distance for each pair of subviews.
 * `content`: A view builder that creates the content of this flow.
+
+## Advanced Usage
+The distance between adjacent subviews can be controlled in both axes using the `horizontalSpacing` and `verticalSpacing` parameters, instead of the `spacing` parameter.
 
 ## Requirements
 
