@@ -57,7 +57,7 @@ ScrollView(.vertical) {
 * `content`: A view builder that creates the content of this flow.
 
 ## Advanced Usage
-The distance between adjacent subviews can be controlled in both axes using the `horizontalSpacing` and `verticalSpacing` parameters, instead of the `spacing` parameter.
+The distance between adjacent subviews can be controlled in both axes, by using the `horizontalSpacing` and `verticalSpacing` parameters instead of the `spacing` parameter.
 
 ## Requirements
 
