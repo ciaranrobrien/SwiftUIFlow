@@ -9,18 +9,7 @@ import SwiftUI
 public struct HFlow<Content>: View
 where Content : View
 {
-    public var body: some View {
-        Flow(.horizontal,
-             alignment: Alignment(horizontal: .leading, vertical: verticalAlignment),
-             horizontalSpacing: horizontalSpacing,
-             verticalSpacing: verticalSpacing,
-             content: content)
-    }
-    
-    private var content: () -> Content
-    private var horizontalSpacing: CGFloat?
-    private var verticalAlignment: VerticalAlignment
-    private var verticalSpacing: CGFloat?
+    public var body: Flow<Content>
 }
 
 
@@ -40,10 +29,10 @@ public extension HFlow {
          spacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.content = content
-        self.horizontalSpacing = spacing
-        self.verticalAlignment = alignment
-        self.verticalSpacing = spacing
+        self.body = Flow(.horizontal,
+                         alignment: Alignment(horizontal: .leading, vertical: alignment),
+                         spacing: spacing,
+                         content: content)
     }
     
     /// A view that arranges its children in a horizontal flow.
@@ -65,9 +54,10 @@ public extension HFlow {
          verticalSpacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.content = content
-        self.horizontalSpacing = horizontalSpacing
-        self.verticalAlignment = alignment
-        self.verticalSpacing = verticalSpacing
+        self.body = Flow(.horizontal,
+                         alignment: Alignment(horizontal: .leading, vertical: alignment),
+                         horizontalSpacing: horizontalSpacing,
+                         verticalSpacing: verticalSpacing,
+                         content: content)
     }
 }

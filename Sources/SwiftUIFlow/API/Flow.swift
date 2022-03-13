@@ -22,10 +22,7 @@ where Content : View
                            size: geometry.size,
                            verticalSpacing: verticalSpacing ?? 8)
                 .transaction {
-                    let newValue = $0
-                    DispatchQueue.main.async {
-                        transaction = newValue
-                    }
+                    updateTransaction($0)
                 }
                 .background(
                     GeometryReader { geometry in
@@ -109,5 +106,19 @@ public extension Flow {
         self.content = content
         self.horizontalSpacing = horizontalSpacing
         self.verticalSpacing = verticalSpacing
+    }
+}
+
+
+private extension Flow {
+    func updateTransaction(_ newValue: Transaction) {
+        if transaction.animation != newValue.animation
+            || transaction.disablesAnimations != newValue.disablesAnimations
+            || transaction.isContinuous != newValue.isContinuous
+        {
+            DispatchQueue.main.async {
+                transaction = newValue
+            }
+        }
     }
 }

@@ -9,18 +9,7 @@ import SwiftUI
 public struct VFlow<Content>: View
 where Content : View
 {
-    public var body: some View {
-        Flow(.vertical,
-             alignment: Alignment(horizontal: horizontalAlignment, vertical: .top),
-             horizontalSpacing: horizontalSpacing,
-             verticalSpacing: verticalSpacing,
-             content: content)
-    }
-    
-    private var content: () -> Content
-    private var horizontalAlignment: HorizontalAlignment
-    private var horizontalSpacing: CGFloat?
-    private var verticalSpacing: CGFloat?
+    public var body: Flow<Content>
 }
 
 
@@ -40,10 +29,10 @@ public extension VFlow {
          spacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.content = content
-        self.horizontalAlignment = alignment
-        self.horizontalSpacing = spacing
-        self.verticalSpacing = spacing
+        self.body = Flow(.vertical,
+                         alignment: Alignment(horizontal: alignment, vertical: .top),
+                         spacing: spacing,
+                         content: content)
     }
     
     /// A view that arranges its children in a vertical flow.
@@ -65,9 +54,10 @@ public extension VFlow {
          verticalSpacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.content = content
-        self.horizontalAlignment = alignment
-        self.horizontalSpacing = horizontalSpacing
-        self.verticalSpacing = verticalSpacing
+        self.body = Flow(.vertical,
+                         alignment: Alignment(horizontal: alignment, vertical: .top),
+                         horizontalSpacing: horizontalSpacing,
+                         verticalSpacing: verticalSpacing,
+                         content: content)
     }
 }
