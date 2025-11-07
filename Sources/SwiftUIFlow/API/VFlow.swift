@@ -1,8 +1,8 @@
 /**
-*  SwiftUIFlow
-*  Copyright (c) Ciaran O'Brien 2022
-*  MIT license, see LICENSE file for details
-*/
+ *  SwiftUIFlow
+ *  Copyright (c) Ciaran O'Brien 2025
+ *  MIT license, see LICENSE file for details
+ */
 
 import SwiftUI
 
@@ -29,10 +29,12 @@ public extension VFlow {
          spacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.body = Flow(.vertical,
-                         alignment: Alignment(horizontal: alignment, vertical: .top),
-                         spacing: spacing,
-                         content: content)
+        self.body = Flow(
+            .vertical,
+            alignment: Alignment(horizontal: alignment, vertical: .top),
+            spacing: spacing,
+            content: content
+        )
     }
     
     /// A view that arranges its children in a vertical flow.
@@ -54,10 +56,12 @@ public extension VFlow {
          verticalSpacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.body = Flow(.vertical,
-                         alignment: Alignment(horizontal: alignment, vertical: .top),
-                         horizontalSpacing: horizontalSpacing,
-                         verticalSpacing: verticalSpacing,
-                         content: content)
+        self.body = Flow(
+            .vertical,
+            alignment: Alignment(horizontal: alignment, vertical: .top),
+            horizontalSpacing: horizontalSpacing,
+            verticalSpacing: verticalSpacing,
+            content: content
+        )
     }
 }

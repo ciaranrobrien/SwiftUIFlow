@@ -1,8 +1,8 @@
 /**
-*  SwiftUIFlow
-*  Copyright (c) Ciaran O'Brien 2022
-*  MIT license, see LICENSE file for details
-*/
+ *  SwiftUIFlow
+ *  Copyright (c) Ciaran O'Brien 2025
+ *  MIT license, see LICENSE file for details
+ */
 
 import SwiftUI
 
@@ -29,10 +29,12 @@ public extension HFlow {
          spacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.body = Flow(.horizontal,
-                         alignment: Alignment(horizontal: .leading, vertical: alignment),
-                         spacing: spacing,
-                         content: content)
+        self.body = Flow(
+            .horizontal,
+            alignment: Alignment(horizontal: .leading, vertical: alignment),
+            spacing: spacing,
+            content: content
+        )
     }
     
     /// A view that arranges its children in a horizontal flow.
@@ -54,10 +56,12 @@ public extension HFlow {
          verticalSpacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.body = Flow(.horizontal,
-                         alignment: Alignment(horizontal: .leading, vertical: alignment),
-                         horizontalSpacing: horizontalSpacing,
-                         verticalSpacing: verticalSpacing,
-                         content: content)
+        self.body = Flow(
+            .horizontal,
+            alignment: Alignment(horizontal: .leading, vertical: alignment),
+            horizontalSpacing: horizontalSpacing,
+            verticalSpacing: verticalSpacing,
+            content: content
+        )
     }
 }

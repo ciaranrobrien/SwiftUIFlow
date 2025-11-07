@@ -1,8 +1,8 @@
 /**
-*  SwiftUIFlow
-*  Copyright (c) Ciaran O'Brien 2022
-*  MIT license, see LICENSE file for details
-*/
+ *  SwiftUIFlow
+ *  Copyright (c) Ciaran O'Brien 2025
+ *  MIT license, see LICENSE file for details
+ */
 
 import SwiftUI
 
@@ -31,142 +31,155 @@ where Content : View
         ZStack(alignment: .topLeading) {
             content()
                 .fixedSize()
-                .alignmentGuide(.leading) { dimensions in
-                    if let maxIndex = maxIndex, currentIndex > maxIndex {
-                        currentIndex %= maxIndex
+                .alignmentGuide(.leading) { [axis, alignment] dimensions in
+                    let dimensionsValue = switch axis {
+                    case .horizontal: dimensions[alignment.vertical] / dimensions[.bottom]
+                    case .vertical: dimensions[alignment.horizontal] / dimensions[.trailing]
                     }
+                    let dimensions = CGSize(width: dimensions.width, height: dimensions.height)
                     
-                    if alignments.indices.contains(currentIndex) {
-                        return alignments[currentIndex].width
-                    }
-                    
-                    switch axis {
-                    case .horizontal:
-                        if (abs(top - dimensions.height) > size.height) {
-                            //Adjust previous lines
-                            if -top > maxLineValue {
-                                let adjustment = (maxLineValue + top)
-                                * (dimensions[alignment.vertical] / dimensions[.bottom])
-                                
-                                for index in 0..<lineFirstIndex {
-                                    alignments[index].height += adjustment
-                                }
-                            }
-                            
-                            maxLineValue = max(maxLineValue, -top)
-                            
-                            let adjustment = (maxLineValue + top)
-                            * (dimensions[alignment.vertical] / dimensions[.bottom])
-                            
-                            //Adjust current line
-                            for index in lineFirstIndex..<currentIndex {
-                                alignments[index].height -= adjustment
-                            }
-                            
-                            leading -= (top == 0 ? dimensions.width : maxValue) + horizontalSpacing
-                            top = 0
-                            lineFirstIndex = currentIndex
-                            maxValue = dimensions.width
-                        } else {
-                            maxValue = max(maxValue, dimensions.width)
+                    return MainActor.assumeIsolated {
+                        if let maxIndex = maxIndex, currentIndex > maxIndex {
+                            currentIndex %= maxIndex
                         }
                         
-                        alignments.append(CGSize(width: leading, height: top))
-                        top -= dimensions.height + verticalSpacing
-                        return alignments[currentIndex].width
-                        
-                    case .vertical:
-                        if (abs(leading - dimensions.width) > size.width) {
-                            //Adjust previous lines
-                            if -leading > maxLineValue {
-                                let adjustment = (maxLineValue + leading)
-                                * (dimensions[alignment.horizontal] / dimensions[.trailing])
-                                
-                                for index in 0..<lineFirstIndex {
-                                    alignments[index].width += adjustment
-                                }
-                            }
-                            
-                            maxLineValue = max(maxLineValue, -leading)
-                            
-                            let adjustment = (maxLineValue + leading)
-                            * (dimensions[alignment.horizontal] / dimensions[.trailing])
-                            
-                            //Adjust current line
-                            for index in lineFirstIndex..<currentIndex {
-                                alignments[index].width -= adjustment
-                            }
-                            
-                            top -= (leading == 0 ? dimensions.height : maxValue) + verticalSpacing
-                            leading = 0
-                            lineFirstIndex = currentIndex
-                            maxValue = dimensions.height
-                        } else {
-                            maxValue = max(maxValue, dimensions.height)
+                        if alignments.indices.contains(currentIndex) {
+                            return alignments[currentIndex].width
                         }
                         
-                        alignments.append(CGSize(width: leading, height: top))
-                        leading -= dimensions.width + horizontalSpacing
-                        return alignments[currentIndex].width
+                        switch axis {
+                        case .horizontal:
+                            if (abs(top - dimensions.height) > size.height) {
+                                //Adjust previous lines
+                                if -top > maxLineValue {
+                                    let adjustment = (maxLineValue + top) * dimensionsValue
+                                    
+                                    for index in 0..<lineFirstIndex {
+                                        alignments[index].height += adjustment
+                                    }
+                                }
+                                
+                                maxLineValue = max(maxLineValue, -top)
+                                
+                                let adjustment = (maxLineValue + top) * dimensionsValue
+                                
+                                //Adjust current line
+                                for index in lineFirstIndex..<currentIndex {
+                                    alignments[index].height -= adjustment
+                                }
+                                
+                                leading -= (top == 0 ? dimensions.width : maxValue) + horizontalSpacing
+                                top = 0
+                                lineFirstIndex = currentIndex
+                                maxValue = dimensions.width
+                            } else {
+                                maxValue = max(maxValue, dimensions.width)
+                            }
+                            
+                            alignments.append(CGSize(width: leading, height: top))
+                            top -= dimensions.height + verticalSpacing
+                            return alignments[currentIndex].width
+                            
+                        case .vertical:
+                            if (abs(leading - dimensions.width) > size.width) {
+                                //Adjust previous lines
+                                if -leading > maxLineValue {
+                                    let adjustment = (maxLineValue + leading) * dimensionsValue
+                                    
+                                    for index in 0..<lineFirstIndex {
+                                        alignments[index].width += adjustment
+                                    }
+                                }
+                                
+                                maxLineValue = max(maxLineValue, -leading)
+                                
+                                let adjustment = (maxLineValue + leading) * dimensionsValue
+                                
+                                //Adjust current line
+                                for index in lineFirstIndex..<currentIndex {
+                                    alignments[index].width -= adjustment
+                                }
+                                
+                                top -= (leading == 0 ? dimensions.height : maxValue) + verticalSpacing
+                                leading = 0
+                                lineFirstIndex = currentIndex
+                                maxValue = dimensions.height
+                            } else {
+                                maxValue = max(maxValue, dimensions.height)
+                            }
+                            
+                            alignments.append(CGSize(width: leading, height: top))
+                            leading -= dimensions.width + horizontalSpacing
+                            return alignments[currentIndex].width
+                        }
                     }
                 }
                 .alignmentGuide(.top) { _ in
-                    if let maxIndex = maxIndex, currentIndex > maxIndex {
-                        currentIndex %= maxIndex
+                    MainActor.assumeIsolated {
+                        if let maxIndex = maxIndex, currentIndex > maxIndex {
+                            currentIndex %= maxIndex
+                        }
+                        
+                        let top: CGFloat
+                        if alignments.indices.contains(currentIndex) {
+                            top = alignments[currentIndex].height
+                        } else {
+                            top = 0
+                        }
+                        
+                        currentIndex += 1
+                        return top
                     }
-                    
-                    let top: CGFloat
-                    if alignments.indices.contains(currentIndex) {
-                        top = alignments[currentIndex].height
-                    } else {
-                        top = 0
-                    }
-                    
-                    currentIndex += 1
-                    return top
                 }
             
             Color.clear
                 .frame(width: 1, height: 1)
-                .alignmentGuide(.leading) { dimensions in
-                    if maxIndex == nil {
-                        maxIndex = currentIndex
+                .alignmentGuide(.leading) { [axis, alignment] dimensions in
+                    let dimensionsValue = switch axis {
+                    case .horizontal: dimensions[alignment.vertical] / dimensions[.bottom]
+                    case .vertical: dimensions[alignment.horizontal] / dimensions[.trailing]
                     }
                     
-                    if !isLastLineAdjusted, let lastIndex = alignments.indices.last {
-                        switch axis {
-                        case .horizontal:
-                            let adjustment = (maxLineValue + top)
-                            * (dimensions[alignment.vertical] / dimensions[.bottom])
-                            
-                            for index in lineFirstIndex...lastIndex {
-                                alignments[index].height -= adjustment
-                            }
-                            
-                        case .vertical:
-                            let adjustment = (maxLineValue + leading)
-                            * (dimensions[alignment.horizontal] / dimensions[.trailing])
-                            
-                            for index in lineFirstIndex...lastIndex {
-                                alignments[index].width -= adjustment
-                            }
+                    return MainActor.assumeIsolated {
+                        if maxIndex == nil {
+                            maxIndex = currentIndex
                         }
                         
-                        isLastLineAdjusted = true
+                        if !isLastLineAdjusted, let lastIndex = alignments.indices.last {
+                            switch axis {
+                            case .horizontal:
+                                let adjustment = (maxLineValue + top) * dimensionsValue
+                                
+                                for index in lineFirstIndex...lastIndex {
+                                    alignments[index].height -= adjustment
+                                }
+                                
+                            case .vertical:
+                                let adjustment = (maxLineValue + leading) * dimensionsValue
+                                
+                                for index in lineFirstIndex...lastIndex {
+                                    alignments[index].width -= adjustment
+                                }
+                            }
+                            
+                            isLastLineAdjusted = true
+                        }
+                        
+                        currentIndex = 0
+                        lineFirstIndex = 0
+                        leading = 0
+                        top = 0
+                        maxValue = 0
+                        maxLineValue = 0
+                        return 0
                     }
-                    
-                    currentIndex = 0
-                    lineFirstIndex = 0
-                    leading = 0
-                    top = 0
-                    maxValue = 0
-                    maxLineValue = 0
-                    return 0
                 }
                 .hidden()
         }
-        .frame(width: axis == .vertical ? 0 : nil,
-               height: axis == .horizontal ? 0 : nil,
-               alignment: alignment)
+        .frame(
+            width: axis == .vertical ? 0 : nil,
+            height: axis == .horizontal ? 0 : nil,
+            alignment: alignment
+        )
     }
 }

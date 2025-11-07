@@ -1,6 +1,6 @@
 /**
 *  SwiftUIFlow
-*  Copyright (c) Ciaran O'Brien 2022
+*  Copyright (c) Ciaran O'Brien 2025
 *  MIT license, see LICENSE file for details
 */
 
@@ -15,12 +15,14 @@ where Content : View
                 Color.clear
                     .hidden()
                 
-                FlowLayout(alignment: alignment,
-                           axis: axis,
-                           content: content,
-                           horizontalSpacing: horizontalSpacing ?? 8,
-                           size: geometry.size,
-                           verticalSpacing: verticalSpacing ?? 8)
+                FlowLayout(
+                    alignment: alignment,
+                    axis: axis,
+                    content: content,
+                    horizontalSpacing: horizontalSpacing ?? defaultSpacing,
+                    size: geometry.size,
+                    verticalSpacing: verticalSpacing ?? defaultSpacing
+                )
                 .transaction {
                     updateTransaction($0)
                 }
@@ -40,8 +42,10 @@ where Content : View
                 )
             }
         }
-        .frame(width: axis == .horizontal ? contentSize.width : nil,
-               height: axis == .vertical ? contentSize.height : nil)
+        .frame(
+            width: axis == .horizontal ? contentSize.width : nil,
+            height: axis == .vertical ? contentSize.height : nil
+        )
     }
     
     @State private var contentSize = CGSize.zero

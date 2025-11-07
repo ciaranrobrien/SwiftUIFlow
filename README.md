@@ -62,13 +62,9 @@ The distance between adjacent subviews can be controlled in both axes, by using 
 ## Requirements
 
 * iOS 14.0+, macOS 11.0+, tvOS 14.0+ or watchOS 7.0+
-* Xcode 12.0+
+* Xcode 26.0+
 
 ## Installation
 
 * Install with [Swift Package Manager](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
 * Import `SwiftUIFlow` to start using.
-
-## Contact
-
-[@ciaranrobrien](https://twitter.com/ciaranrobrien) on Twitter.
